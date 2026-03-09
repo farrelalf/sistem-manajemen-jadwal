@@ -1,0 +1,6 @@
+room_id,room_name,schedule_id,date,start_time,end_time,activity_name,status
+R001,Ruang Rapat A,J001,2026-03-10,800,930,Meeting Tim Marketing,Booked
+R002,Ruang Rapat B,J002,2026-03-10,900,1030,Diskusi Proyek AI,Booked
+R001,Ruang Rapat A,J003,2026-03-10,900,1000,Presentasi Klien,Booked
+R003,Ruang Kelas 101,J004,2026-03-10,800,1000,Kuliah Struktur Data,Booked
+R003,Ruang Kelas 101,J005,2026-03-10,1030,1200,Kuliah Basis Data,Booked
