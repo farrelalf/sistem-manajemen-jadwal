@@ -1,6 +1,31 @@
 room_id,room_name,schedule_id,date,start_time,end_time,activity_name,status
-R001,Ruang Rapat A,J001,2026-03-10,800,930,Meeting Tim Marketing,Booked
-R002,Ruang Rapat B,J002,2026-03-10,900,1030,Diskusi Proyek AI,Booked
-R001,Ruang Rapat A,J003,2026-03-10,900,1000,Presentasi Klien,Booked
-R003,Ruang Kelas 101,J004,2026-03-10,800,1000,Kuliah Struktur Data,Booked
-R003,Ruang Kelas 101,J005,2026-03-10,1030,1200,Kuliah Basis Data,Booked
+R001,RK Komputer A1,J001,2026-03-10,800,930,Kuliah Struktur Data,Booked
+R002,RK Komputer A2,J002,2026-03-10,900,1030,Kuliah Basis Data,Booked
+R003,RK Komputer B1,J003,2026-03-10,1000,1130,Kuliah Algoritma,Booked
+R004,RK Komputer B2,J004,2026-03-10,1300,1430,Kuliah Sistem Operasi,Booked
+R005,Ruang Lab Komputer 1,J005,2026-03-10,1400,1600,Praktikum Pemrograman,Booked
+R006,Ruang Lab Komputer 2,J006,2026-03-10,1500,1700,Praktikum Basis Data,Booked
+R001,RK Komputer A1,J007,2026-03-11,800,930,Kuliah Machine Learning,Booked
+R002,RK Komputer A2,J008,2026-03-11,900,1030,Kuliah Jaringan Komputer,Booked
+R003,RK Komputer B1,J009,2026-03-11,1000,1130,Kuliah Rekayasa Perangkat Lunak,Booked
+R004,RK Komputer B2,J010,2026-03-11,1300,1430,Kuliah Kecerdasan Buatan,Booked
+R005,Ruang Lab Komputer 1,J011,2026-03-11,1400,1600,Praktikum Data Mining,Booked
+R006,Ruang Lab Komputer 2,J012,2026-03-11,1500,1700,Praktikum AI,Booked
+R001,RK Komputer A1,J013,2026-03-12,800,930,Kuliah Pemrograman Lanjut,Booked
+R002,RK Komputer A2,J014,2026-03-12,900,1030,Kuliah Analisis Algoritma,Booked
+R003,RK Komputer B1,J015,2026-03-12,1000,1130,Kuliah Grafika Komputer,Booked
+R004,RK Komputer B2,J016,2026-03-12,1300,1430,Kuliah Sistem Basis Data,Booked
+R005,Ruang Lab Komputer 1,J017,2026-03-12,1400,1600,Praktikum Web Programming,Booked
+R006,Ruang Lab Komputer 2,J018,2026-03-12,1500,1700,Praktikum Mobile Programming,Booked
+R001,RK Komputer A1,J019,2026-03-13,800,930,Kuliah Cloud Computing,Booked
+R002,RK Komputer A2,J020,2026-03-13,900,1030,Kuliah Cyber Security,Booked
+R003,RK Komputer B1,J021,2026-03-13,1000,1130,Kuliah Big Data,Booked
+R004,RK Komputer B2,J022,2026-03-13,1300,1430,Kuliah Human Computer Interaction,Booked
+R005,Ruang Lab Komputer 1,J023,2026-03-13,1400,1600,Praktikum Python Programming,Booked
+R006,Ruang Lab Komputer 2,J024,2026-03-13,1500,1700,Praktikum Data Science,Booked
+R001,RK Komputer A1,J025,2026-03-14,800,930,Kuliah Deep Learning,Booked
+R002,RK Komputer A2,J026,2026-03-14,900,1030,Kuliah Distributed Systems,Booked
+R003,RK Komputer B1,J027,2026-03-14,1000,1130,Kuliah Natural Language Processing,Booked
+R004,RK Komputer B2,J028,2026-03-14,1300,1430,Kuliah Computer Vision,Booked
+R005,Ruang Lab Komputer 1,J029,2026-03-14,1400,1600,Praktikum Machine Learning,Booked
+R006,Ruang Lab Komputer 2,J030,2026-03-14,1500,1700,Praktikum Data Visualization,Booked
