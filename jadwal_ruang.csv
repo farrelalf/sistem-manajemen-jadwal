@@ -3,29 +3,99 @@ R001,RK Komputer A1,J001,2026-03-10,800,930,Kuliah Struktur Data,Booked
 R002,RK Komputer A2,J002,2026-03-10,900,1030,Kuliah Basis Data,Booked
 R003,RK Komputer B1,J003,2026-03-10,1000,1130,Kuliah Algoritma,Booked
 R004,RK Komputer B2,J004,2026-03-10,1300,1430,Kuliah Sistem Operasi,Booked
-R005,Ruang Lab Komputer 1,J005,2026-03-10,1400,1600,Praktikum Pemrograman,Booked
-R006,Ruang Lab Komputer 2,J006,2026-03-10,1500,1700,Praktikum Basis Data,Booked
+R005,Lab Komputer 1,J005,2026-03-10,1400,1600,Praktikum Pemrograman,Booked
+R006,Lab Komputer 2,J006,2026-03-10,1500,1700,Praktikum Basis Data,Booked
 R001,RK Komputer A1,J007,2026-03-11,800,930,Kuliah Machine Learning,Booked
 R002,RK Komputer A2,J008,2026-03-11,900,1030,Kuliah Jaringan Komputer,Booked
 R003,RK Komputer B1,J009,2026-03-11,1000,1130,Kuliah Rekayasa Perangkat Lunak,Booked
 R004,RK Komputer B2,J010,2026-03-11,1300,1430,Kuliah Kecerdasan Buatan,Booked
-R005,Ruang Lab Komputer 1,J011,2026-03-11,1400,1600,Praktikum Data Mining,Booked
-R006,Ruang Lab Komputer 2,J012,2026-03-11,1500,1700,Praktikum AI,Booked
+R005,Lab Komputer 1,J011,2026-03-11,1400,1600,Praktikum Data Mining,Booked
+R006,Lab Komputer 2,J012,2026-03-11,1500,1700,Praktikum AI,Booked
 R001,RK Komputer A1,J013,2026-03-12,800,930,Kuliah Pemrograman Lanjut,Booked
 R002,RK Komputer A2,J014,2026-03-12,900,1030,Kuliah Analisis Algoritma,Booked
 R003,RK Komputer B1,J015,2026-03-12,1000,1130,Kuliah Grafika Komputer,Booked
 R004,RK Komputer B2,J016,2026-03-12,1300,1430,Kuliah Sistem Basis Data,Booked
-R005,Ruang Lab Komputer 1,J017,2026-03-12,1400,1600,Praktikum Web Programming,Booked
-R006,Ruang Lab Komputer 2,J018,2026-03-12,1500,1700,Praktikum Mobile Programming,Booked
+R005,Lab Komputer 1,J017,2026-03-12,1400,1600,Praktikum Web Programming,Booked
+R006,Lab Komputer 2,J018,2026-03-12,1500,1700,Praktikum Mobile Programming,Booked
 R001,RK Komputer A1,J019,2026-03-13,800,930,Kuliah Cloud Computing,Booked
 R002,RK Komputer A2,J020,2026-03-13,900,1030,Kuliah Cyber Security,Booked
 R003,RK Komputer B1,J021,2026-03-13,1000,1130,Kuliah Big Data,Booked
 R004,RK Komputer B2,J022,2026-03-13,1300,1430,Kuliah Human Computer Interaction,Booked
-R005,Ruang Lab Komputer 1,J023,2026-03-13,1400,1600,Praktikum Python Programming,Booked
-R006,Ruang Lab Komputer 2,J024,2026-03-13,1500,1700,Praktikum Data Science,Booked
+R005,Lab Komputer 1,J023,2026-03-13,1400,1600,Praktikum Python Programming,Booked
+R006,Lab Komputer 2,J024,2026-03-13,1500,1700,Praktikum Data Science,Booked
 R001,RK Komputer A1,J025,2026-03-14,800,930,Kuliah Deep Learning,Booked
 R002,RK Komputer A2,J026,2026-03-14,900,1030,Kuliah Distributed Systems,Booked
 R003,RK Komputer B1,J027,2026-03-14,1000,1130,Kuliah Natural Language Processing,Booked
 R004,RK Komputer B2,J028,2026-03-14,1300,1430,Kuliah Computer Vision,Booked
-R005,Ruang Lab Komputer 1,J029,2026-03-14,1400,1600,Praktikum Machine Learning,Booked
-R006,Ruang Lab Komputer 2,J030,2026-03-14,1500,1700,Praktikum Data Visualization,Booked
+R005,Lab Komputer 1,J029,2026-03-14,1400,1600,Praktikum Machine Learning,Booked
+R006,Lab Komputer 2,J030,2026-03-14,1500,1700,Praktikum Data Visualization,Booked
+R001,RK Komputer A1,J031,2026-03-15,800,900,Diskusi Kelompok,Booked
+R002,RK Komputer A2,J032,2026-03-15,900,1000,Meeting Proyek,Booked
+R003,RK Komputer B1,J033,2026-03-15,1000,1100,Kuliah Data Structures,Booked
+R004,RK Komputer B2,J034,2026-03-15,1100,1200,Kuliah Software Engineering,Booked
+R005,Lab Komputer 1,J035,2026-03-15,1300,1500,Praktikum Java Programming,Booked
+R006,Lab Komputer 2,J036,2026-03-15,1500,1700,Praktikum Database Systems,Booked
+R001,RK Komputer A1,J037,2026-03-16,800,900,Kuliah AI Ethics,Booked
+R002,RK Komputer A2,J038,2026-03-16,900,1000,Kuliah Data Visualization,Booked
+R003,RK Komputer B1,J039,2026-03-16,1000,1100,Kuliah Information Retrieval,Booked
+R004,RK Komputer B2,J040,2026-03-16,1100,1200,Kuliah Operating Systems,Booked
+R005,Lab Komputer 1,J041,2026-03-16,1300,1500,Praktikum Linux Systems,Booked
+R006,Lab Komputer 2,J042,2026-03-16,1500,1700,Praktikum Computer Networks,Booked
+R001,RK Komputer A1,J043,2026-03-17,800,900,Kuliah Data Mining,Booked
+R002,RK Komputer A2,J044,2026-03-17,900,1000,Kuliah Big Data Systems,Booked
+R003,RK Komputer B1,J045,2026-03-17,1000,1100,Kuliah Parallel Computing,Booked
+R004,RK Komputer B2,J046,2026-03-17,1100,1200,Kuliah Compiler Design,Booked
+R005,Lab Komputer 1,J047,2026-03-17,1300,1500,Praktikum C++ Programming,Booked
+R006,Lab Komputer 2,J048,2026-03-17,1500,1700,Praktikum Web Development,Booked
+R001,RK Komputer A1,J049,2026-03-18,800,900,Kuliah Distributed Computing,Booked
+R002,RK Komputer A2,J050,2026-03-18,900,1000,Kuliah Data Analytics,Booked
+R003,RK Komputer B1,J051,2026-03-18,1000,1100,Kuliah Software Testing,Booked
+R004,RK Komputer B2,J052,2026-03-18,1100,1200,Kuliah UI UX Design,Booked
+R005,Lab Komputer 1,J053,2026-03-18,1300,1500,Praktikum React Programming,Booked
+R006,Lab Komputer 2,J054,2026-03-18,1500,1700,Praktikum Data Engineering,Booked
+R001,RK Komputer A1,J055,2026-03-19,800,900,Kuliah Software Architecture,Booked
+R002,RK Komputer A2,J056,2026-03-19,900,1000,Kuliah Blockchain Systems,Booked
+R003,RK Komputer B1,J057,2026-03-19,1000,1100,Kuliah Quantum Computing,Booked
+R004,RK Komputer B2,J058,2026-03-19,1100,1200,Kuliah Game Development,Booked
+R005,Lab Komputer 1,J059,2026-03-19,1300,1500,Praktikum Unity Programming,Booked
+R006,Lab Komputer 2,J060,2026-03-19,1500,1700,Praktikum Data Analysis,Booked
+R001,RK Komputer A1,J061,2026-03-20,800,900,Kuliah DevOps Engineering,Booked
+R002,RK Komputer A2,J062,2026-03-20,900,1000,Kuliah Internet of Things,Booked
+R003,RK Komputer B1,J063,2026-03-20,1000,1100,Kuliah Edge Computing,Booked
+R004,RK Komputer B2,J064,2026-03-20,1100,1200,Kuliah Smart Systems,Booked
+R005,Lab Komputer 1,J065,2026-03-20,1300,1500,Praktikum Embedded Systems,Booked
+R006,Lab Komputer 2,J066,2026-03-20,1500,1700,Praktikum Robotics Programming,Booked
+R001,RK Komputer A1,J067,2026-03-21,800,900,Kuliah Knowledge Representation,Booked
+R002,RK Komputer A2,J068,2026-03-21,900,1000,Kuliah Semantic Web,Booked
+R003,RK Komputer B1,J069,2026-03-21,1000,1100,Kuliah Multimedia Systems,Booked
+R004,RK Komputer B2,J070,2026-03-21,1100,1200,Kuliah Augmented Reality,Booked
+R005,Lab Komputer 1,J071,2026-03-21,1300,1500,Praktikum AR Programming,Booked
+R006,Lab Komputer 2,J072,2026-03-21,1500,1700,Praktikum VR Programming,Booked
+R001,RK Komputer A1,J073,2026-03-22,800,900,Kuliah Software Maintenance,Booked
+R002,RK Komputer A2,J074,2026-03-22,900,1000,Kuliah Information Systems,Booked
+R003,RK Komputer B1,J075,2026-03-22,1000,1100,Kuliah Data Governance,Booked
+R004,RK Komputer B2,J076,2026-03-22,1100,1200,Kuliah Digital Transformation,Booked
+R005,Lab Komputer 1,J077,2026-03-22,1300,1500,Praktikum Backend Development,Booked
+R006,Lab Komputer 2,J078,2026-03-22,1500,1700,Praktikum Frontend Development,Booked
+R001,RK Komputer A1,J079,2026-03-23,800,900,Kuliah Computational Intelligence,Booked
+R002,RK Komputer A2,J080,2026-03-23,900,1000,Kuliah Pattern Recognition,Booked
+R003,RK Komputer B1,J081,2026-03-23,1000,1100,Kuliah Neural Networks,Booked
+R004,RK Komputer B2,J082,2026-03-23,1100,1200,Kuliah Advanced AI,Booked
+R005,Lab Komputer 1,J083,2026-03-23,1300,1500,Praktikum TensorFlow,Booked
+R006,Lab Komputer 2,J084,2026-03-23,1500,1700,Praktikum PyTorch,Booked
+R001,RK Komputer A1,J085,2026-03-24,800,900,Kuliah Software Quality,Booked
+R002,RK Komputer A2,J086,2026-03-24,900,1000,Kuliah IT Governance,Booked
+R003,RK Komputer B1,J087,2026-03-24,1000,1100,Kuliah Digital Security,Booked
+R004,RK Komputer B2,J088,2026-03-24,1100,1200,Kuliah Cloud Infrastructure,Booked
+R005,Lab Komputer 1,J089,2026-03-24,1300,1500,Praktikum Cloud Deployment,Booked
+R006,Lab Komputer 2,J090,2026-03-24,1500,1700,Praktikum DevOps Pipeline,Booked
+R001,RK Komputer A1,J091,2026-03-25,800,900,Kuliah IT Project Management,Booked
+R002,RK Komputer A2,J092,2026-03-25,900,1000,Kuliah Data Warehousing,Booked
+R003,RK Komputer B1,J093,2026-03-25,1000,1100,Kuliah Business Intelligence,Booked
+R004,RK Komputer B2,J094,2026-03-25,1100,1200,Kuliah Data Strategy,Booked
+R005,Lab Komputer 1,J095,2026-03-25,1300,1500,Praktikum SQL Optimization,Booked
+R006,Lab Komputer 2,J096,2026-03-25,1500,1700,Praktikum Data Pipeline,Booked
+R001,RK Komputer A1,J097,2026-03-26,800,900,Kuliah Advanced Databases,Booked
+R002,RK Komputer A2,J098,2026-03-26,900,1000,Kuliah Information Architecture,Booked
+R003,RK Komputer B1,J099,2026-03-26,1000,1100,Kuliah Knowledge Management,Booked
+R004,RK Komputer B2,J100,2026-03-26,1100,1200,Kuliah Smart Applications,Booked
