@@ -70,8 +70,6 @@ void loadCSV(string filename) {
     }
 
     file.close();
-
-    cout << "Dataset berhasil dimuat!\n";
 }
 
 void tampilkanJadwal() {
@@ -84,13 +82,14 @@ void tampilkanJadwal() {
     for (auto j : dataJadwal) {
 
         cout << "\n----------------------------\n";
-        cout << "ID Jadwal : " << j.schedule_id << endl;
-        cout << "Ruang     : " << j.room_name << endl;
-        cout << "Tanggal   : " << j.date << endl;
-        cout << "Mulai     : " << j.start_time << endl;
-        cout << "Selesai   : " << j.end_time << endl;
-        cout << "Kegiatan  : " << j.activity << endl;
-        cout << "Status    : " << j.status << endl;
+        cout << "ID Ruangan : " << j.room_id << endl;
+        cout << "ID Jadwal  : " << j.schedule_id << endl;
+        cout << "Ruang      : " << j.room_name << endl;
+        cout << "Tanggal    : " << j.date << endl;
+        cout << "Mulai      : " << j.start_time << endl;
+        cout << "Selesai    : " << j.end_time << endl;
+        cout << "Kegiatan   : " << j.activity << endl;
+        cout << "Status     : " << j.status << endl;
     }
 }
 
