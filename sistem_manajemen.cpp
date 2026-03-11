@@ -2,19 +2,10 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
-#include <chrono>  
+#include <chrono>
 
 using namespace std;
-using Clock = std::chrono::high_resolution_clock;
-
-template<typename Func>
-void measureRuntime(const string &name, Func f) {
-    auto start = Clock::now();
-    f();
-    auto end = Clock::now();
-    auto dur = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-    cout << endl <<"Runtime " << name << ": "<< dur << "ms" << endl;
-}
+using Clock = chrono::high_resolution_clock;
 
 struct Jadwal {
     string room_id;
@@ -29,10 +20,8 @@ struct Jadwal {
 
 vector<Jadwal> dataJadwal;
 
-// only these room IDs are permitted when inserting
 const vector<string> validRooms = {"R001","R002","R003","R004","R005","R006"};
 
-// helper to check if a room id is allowed
 bool isValidRoom(const string &id) {
     for (auto &r : validRooms) {
         if (r == id) return true;
@@ -42,13 +31,12 @@ bool isValidRoom(const string &id) {
 
 bool cekKonflik(string room_id, string date, int start, int end) {
 
-    for (auto j : dataJadwal) {
+    for (const auto &j : dataJadwal) {
 
         if (j.room_id == room_id && j.date == date) {
 
-            if (start < j.end_time && end > j.start_time) {
+            if (start < j.end_time && end > j.start_time)
                 return true;
-            }
         }
     }
 
@@ -56,6 +44,8 @@ bool cekKonflik(string room_id, string date, int start, int end) {
 }
 
 void loadCSV(string filename) {
+
+    auto start = Clock::now();
 
     ifstream file(filename);
     string line;
@@ -65,7 +55,7 @@ void loadCSV(string filename) {
         return;
     }
 
-    getline(file, line); 
+    getline(file, line);
 
     while (getline(file, line)) {
 
@@ -92,16 +82,24 @@ void loadCSV(string filename) {
     }
 
     file.close();
+
+    auto end = Clock::now();
+    auto dur = chrono::duration_cast<chrono::microseconds>(end - start).count();
+
+    cout << "Jumlah data dimuat: " << dataJadwal.size() << endl;
+    cout << "Runtime loadCSV: " << dur << " microseconds\n";
 }
 
 void tampilkanJadwal() {
+
+    auto start = Clock::now();
 
     if (dataJadwal.empty()) {
         cout << "Belum ada data jadwal\n";
         return;
     }
 
-    for (auto j : dataJadwal) {
+    for (const auto &j : dataJadwal) {
 
         cout << "\n----------------------------\n";
         cout << "ID Ruangan : " << j.room_id << endl;
@@ -113,6 +111,11 @@ void tampilkanJadwal() {
         cout << "Kegiatan   : " << j.activity << endl;
         cout << "Status     : " << j.status << endl;
     }
+
+    auto end = Clock::now();
+    auto dur = chrono::duration_cast<chrono::microseconds>(end - start).count();
+
+    cout << "\nRuntime tampilkanJadwal: " << dur << " microseconds\n";
 }
 
 void insertJadwal() {
@@ -121,8 +124,9 @@ void insertJadwal() {
 
     cout << "ID Ruang (R001-R006): ";
     cin >> j.room_id;
+
     if (!isValidRoom(j.room_id)) {
-        cout << "Error: ID Ruang tidak valid. Hanya R001..R006 yang diperbolehkan.\n";
+        cout << "Error: ID Ruang tidak valid.\n";
         return;
     }
 
@@ -142,23 +146,34 @@ void insertJadwal() {
     cout << "Waktu selesai: ";
     cin >> j.end_time;
 
+    cout << "Nama kegiatan: ";
+    cin.ignore();
+    getline(cin, j.activity);
+
+    auto start = Clock::now();
+
     if (cekKonflik(j.room_id, j.date, j.start_time, j.end_time)) {
+
         cout << "Konflik jadwal terdeteksi!\n";
-    }
-    else {
-        cout << "Nama kegiatan: ";
-        cin.ignore();
-        getline(cin, j.activity);
+
+    } else {
 
         j.status = "Booked";
-
         dataJadwal.push_back(j);
+
         cout << "Jadwal berhasil ditambahkan\n";
     }
+
+    auto end = Clock::now();
+    auto dur = chrono::duration_cast<chrono::microseconds>(end - start).count();
+
+    cout << "Runtime insertJadwal: " << dur << " microseconds\n";
 }
 
 void searchJadwal() {
+
     int mode;
+
     cout << "Cari berdasarkan:\n";
     cout << "1. ID Ruang\n";
     cout << "2. Tanggal (YYYY-MM-DD)\n";
@@ -166,19 +181,25 @@ void searchJadwal() {
     cin >> mode;
 
     string key;
-    if (mode == 1) {
+
+    if (mode == 1)
         cout << "Masukkan ID Ruang: ";
-    } else if(mode == 2) {
+    else if (mode == 2)
         cout << "Masukkan Tanggal: ";
-    } else {
+    else
         return;
-    }
+
     cin >> key;
 
+    auto start = Clock::now();
+
     bool found = false;
-    for (auto &j : dataJadwal) {
+
+    for (const auto &j : dataJadwal) {
+
         if ((mode == 1 && j.room_id == key) ||
             (mode == 2 && j.date == key)) {
+
             cout << "\n----------------------------\n";
             cout << "\nID Jadwal : " << j.schedule_id;
             cout << "\nRuang      : " << j.room_name;
@@ -186,12 +207,18 @@ void searchJadwal() {
             cout << "\nMulai      : " << j.start_time;
             cout << "\nSelesai    : " << j.end_time;
             cout << "\nKegiatan   : " << j.activity << endl;
+
             found = true;
         }
     }
-    if (!found) {
+
+    if (!found)
         cout << "Data tidak ditemukan\n";
-    }
+
+    auto end = Clock::now();
+    auto dur = chrono::duration_cast<chrono::microseconds>(end - start).count();
+
+    cout << "Runtime searchJadwal: " << dur << " microseconds\n";
 }
 
 void updateJadwal() {
@@ -201,26 +228,45 @@ void updateJadwal() {
     cout << "Masukkan ID Jadwal yang ingin diupdate: ";
     cin >> id;
 
+    int startBaru, endBaru;
+    string kegiatanBaru;
+
+    cout << "Waktu mulai baru: ";
+    cin >> startBaru;
+
+    cout << "Waktu selesai baru: ";
+    cin >> endBaru;
+
+    cout << "Nama kegiatan baru: ";
+    cin.ignore();
+    getline(cin, kegiatanBaru);
+
+    auto start = Clock::now();
+
     for (auto &j : dataJadwal) {
 
         if (j.schedule_id == id) {
 
-            cout << "Waktu mulai baru: ";
-            cin >> j.start_time;
-
-            cout << "Waktu selesai baru: ";
-            cin >> j.end_time;
-
-            cout << "Nama kegiatan baru: ";
-            cin.ignore();
-            getline(cin, j.activity);
+            j.start_time = startBaru;
+            j.end_time = endBaru;
+            j.activity = kegiatanBaru;
 
             cout << "Jadwal berhasil diupdate\n";
+
+            auto end = Clock::now();
+            auto dur = chrono::duration_cast<chrono::microseconds>(end - start).count();
+
+            cout << "Runtime updateJadwal: " << dur << " microseconds\n";
             return;
         }
     }
 
     cout << "Jadwal tidak ditemukan\n";
+
+    auto end = Clock::now();
+    auto dur = chrono::duration_cast<chrono::microseconds>(end - start).count();
+
+    cout << "Runtime updateJadwal: " << dur << " microseconds\n";
 }
 
 void deleteJadwal() {
@@ -230,6 +276,8 @@ void deleteJadwal() {
     cout << "Masukkan ID Jadwal yang ingin dihapus: ";
     cin >> id;
 
+    auto start = Clock::now();
+
     for (int i = 0; i < dataJadwal.size(); i++) {
 
         if (dataJadwal[i].schedule_id == id) {
@@ -237,16 +285,26 @@ void deleteJadwal() {
             dataJadwal.erase(dataJadwal.begin() + i);
 
             cout << "Jadwal berhasil dihapus\n";
+
+            auto end = Clock::now();
+            auto dur = chrono::duration_cast<chrono::microseconds>(end - start).count();
+
+            cout << "Runtime deleteJadwal: " << dur << " microseconds\n";
             return;
         }
     }
 
     cout << "Jadwal tidak ditemukan\n";
+
+    auto end = Clock::now();
+    auto dur = chrono::duration_cast<chrono::microseconds>(end - start).count();
+
+    cout << "Runtime deleteJadwal: " << dur << " microseconds\n";
 }
 
 int main() {
 
-    measureRuntime("loadCSV", [](){ loadCSV("jadwal_ruang_1semester_3600data.csv"); });
+    loadCSV("jadwal_ruang_1semester_3600data.csv");
 
     int pilihan;
 
@@ -266,26 +324,25 @@ int main() {
         switch (pilihan) {
 
         case 1:
-            measureRuntime("tampilkanJadwal", [](){ tampilkanJadwal(); });
+            tampilkanJadwal();
             break;
 
         case 2:
-            measureRuntime("insertJadwal", [](){ insertJadwal(); });
+            insertJadwal();
             break;
 
         case 3:
-            measureRuntime("searchJadwal", [](){ searchJadwal(); });
+            searchJadwal();
             break;
 
         case 4:
-            measureRuntime("updateJadwal", [](){ updateJadwal(); });
+            updateJadwal();
             break;
 
         case 5:
-            measureRuntime("deleteJadwal", [](){ deleteJadwal(); });
+            deleteJadwal();
             break;
         }
 
     } while (pilihan != 6);
-
 }
