@@ -2,8 +2,19 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
+#include <chrono>  
 
 using namespace std;
+using Clock = std::chrono::high_resolution_clock;
+
+template<typename Func>
+void measureRuntime(const string &name, Func f) {
+    auto start = Clock::now();
+    f();
+    auto end = Clock::now();
+    auto dur = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+    cout << endl <<"Runtime " << name << ": "<< dur << "ms" << endl;
+}
 
 struct Jadwal {
     string room_id;
@@ -17,6 +28,17 @@ struct Jadwal {
 };
 
 vector<Jadwal> dataJadwal;
+
+// only these room IDs are permitted when inserting
+const vector<string> validRooms = {"R001","R002","R003","R004","R005","R006"};
+
+// helper to check if a room id is allowed
+bool isValidRoom(const string &id) {
+    for (auto &r : validRooms) {
+        if (r == id) return true;
+    }
+    return false;
+}
 
 bool cekKonflik(string room_id, string date, int start, int end) {
 
@@ -83,8 +105,8 @@ void tampilkanJadwal() {
 
         cout << "\n----------------------------\n";
         cout << "ID Ruangan : " << j.room_id << endl;
-        cout << "ID Jadwal  : " << j.schedule_id << endl;
         cout << "Ruang      : " << j.room_name << endl;
+        cout << "ID Jadwal  : " << j.schedule_id << endl;
         cout << "Tanggal    : " << j.date << endl;
         cout << "Mulai      : " << j.start_time << endl;
         cout << "Selesai    : " << j.end_time << endl;
@@ -97,8 +119,12 @@ void insertJadwal() {
 
     Jadwal j;
 
-    cout << "ID Ruang: ";
+    cout << "ID Ruang (R001-R006): ";
     cin >> j.room_id;
+    if (!isValidRoom(j.room_id)) {
+        cout << "Error: ID Ruang tidak valid. Hanya R001..R006 yang diperbolehkan.\n";
+        return;
+    }
 
     cout << "Nama Ruang: ";
     cin.ignore();
@@ -116,39 +142,55 @@ void insertJadwal() {
     cout << "Waktu selesai: ";
     cin >> j.end_time;
 
-    cout << "Nama kegiatan: ";
-    cin.ignore();
-    getline(cin, j.activity);
-
-    j.status = "Booked";
-
     if (cekKonflik(j.room_id, j.date, j.start_time, j.end_time)) {
         cout << "Konflik jadwal terdeteksi!\n";
     }
     else {
+        cout << "Nama kegiatan: ";
+        cin.ignore();
+        getline(cin, j.activity);
+
+        j.status = "Booked";
 
         dataJadwal.push_back(j);
         cout << "Jadwal berhasil ditambahkan\n";
     }
 }
 
-void searchByRoom() {
+void searchJadwal() {
+    int mode;
+    cout << "Cari berdasarkan:\n";
+    cout << "1. ID Ruang\n";
+    cout << "2. Tanggal (YYYY-MM-DD)\n";
+    cout << "Pilih: ";
+    cin >> mode;
 
-    string id;
+    string key;
+    if (mode == 1) {
+        cout << "Masukkan ID Ruang: ";
+    } else if(mode == 2) {
+        cout << "Masukkan Tanggal: ";
+    } else {
+        return;
+    }
+    cin >> key;
 
-    cout << "Masukkan ID Ruang: ";
-    cin >> id;
-
-    for (auto j : dataJadwal) {
-
-        if (j.room_id == id) {
-
+    bool found = false;
+    for (auto &j : dataJadwal) {
+        if ((mode == 1 && j.room_id == key) ||
+            (mode == 2 && j.date == key)) {
+            cout << "\n----------------------------\n";
             cout << "\nID Jadwal : " << j.schedule_id;
-            cout << "\nTanggal   : " << j.date;
-            cout << "\nMulai     : " << j.start_time;
-            cout << "\nSelesai   : " << j.end_time;
-            cout << "\nKegiatan  : " << j.activity << endl;
+            cout << "\nRuang      : " << j.room_name;
+            cout << "\nTanggal    : " << j.date;
+            cout << "\nMulai      : " << j.start_time;
+            cout << "\nSelesai    : " << j.end_time;
+            cout << "\nKegiatan   : " << j.activity << endl;
+            found = true;
         }
+    }
+    if (!found) {
+        cout << "Data tidak ditemukan\n";
     }
 }
 
@@ -204,7 +246,7 @@ void deleteJadwal() {
 
 int main() {
 
-    loadCSV("jadwal_ruang.csv");
+    measureRuntime("loadCSV", [](){ loadCSV("jadwal_ruang_1semester_3600data.csv"); });
 
     int pilihan;
 
@@ -213,10 +255,10 @@ int main() {
         cout << "\n===== SISTEM MANAJEMEN JADWAL RUANG =====\n";
         cout << "1. Tampilkan Jadwal\n";
         cout << "2. Insert Jadwal\n";
-        cout << "3. Search Jadwal Berdasarkan Ruang\n";
+        cout << "3. Search Jadwal Berdasarkan Ruang/Tanggal\n";
         cout << "4. Update Jadwal\n";
         cout << "5. Delete Jadwal\n";
-        cout << "6. Exit\n";
+        cout << "6. Keluar\n";
 
         cout << "Pilih menu: ";
         cin >> pilihan;
@@ -224,23 +266,23 @@ int main() {
         switch (pilihan) {
 
         case 1:
-            tampilkanJadwal();
+            measureRuntime("tampilkanJadwal", [](){ tampilkanJadwal(); });
             break;
 
         case 2:
-            insertJadwal();
+            measureRuntime("insertJadwal", [](){ insertJadwal(); });
             break;
 
         case 3:
-            searchByRoom();
+            measureRuntime("searchJadwal", [](){ searchJadwal(); });
             break;
 
         case 4:
-            updateJadwal();
+            measureRuntime("updateJadwal", [](){ updateJadwal(); });
             break;
 
         case 5:
-            deleteJadwal();
+            measureRuntime("deleteJadwal", [](){ deleteJadwal(); });
             break;
         }
 
