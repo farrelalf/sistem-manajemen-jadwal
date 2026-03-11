@@ -22,6 +22,16 @@ vector<Jadwal> dataJadwal;
 
 const vector<string> validRooms = {"R001","R002","R003","R004","R005","R006"};
 
+string getRoomName(const string &id) {
+    if (id == "R001") return "RK A1";
+    if (id == "R002") return "RK A2";
+    if (id == "R003") return "RK B1";
+    if (id == "R004") return "RK B4";
+    if (id == "R005") return "Lab Komputer 1";
+    if (id == "R006") return "Lab Komputer 2";
+    return "Unknown";
+}
+
 bool isValidRoom(const string &id) {
     for (auto &r : validRooms) {
         if (r == id) return true;
@@ -66,6 +76,7 @@ void loadCSV(string filename) {
 
         getline(ss, j.room_id, ',');
         getline(ss, j.room_name, ',');
+        j.room_name = getRoomName(j.room_id);
         getline(ss, j.schedule_id, ',');
         getline(ss, j.date, ',');
 
@@ -87,7 +98,7 @@ void loadCSV(string filename) {
     auto dur = chrono::duration_cast<chrono::milliseconds>(end - start).count();
 
     cout << "Jumlah data dimuat: " << dataJadwal.size() << endl;
-    cout << "Runtime loadCSV: " << dur << " milliseconds\n";
+    cout << endl <<"Runtime loadCSV: " << dur << " milliseconds\n";
 }
 
 void tampilkanJadwal() {
@@ -130,9 +141,8 @@ void insertJadwal() {
         return;
     }
 
-    cout << "Nama Ruang: ";
-    cin.ignore();
-    getline(cin, j.room_name);
+    // fill room name automatically based on ID
+    j.room_name = getRoomName(j.room_id);
 
     cout << "ID Jadwal: ";
     cin >> j.schedule_id;
@@ -146,10 +156,6 @@ void insertJadwal() {
     cout << "Waktu selesai: ";
     cin >> j.end_time;
 
-    cout << "Nama kegiatan: ";
-    cin.ignore();
-    getline(cin, j.activity);
-
     auto start = Clock::now();
 
     if (cekKonflik(j.room_id, j.date, j.start_time, j.end_time)) {
@@ -157,6 +163,9 @@ void insertJadwal() {
         cout << "Konflik jadwal terdeteksi!\n";
 
     } else {
+        cout << "Nama kegiatan: ";
+        cin.ignore();
+        getline(cin, j.activity);
 
         j.status = "Booked";
         dataJadwal.push_back(j);
@@ -167,7 +176,7 @@ void insertJadwal() {
     auto end = Clock::now();
     auto dur = chrono::duration_cast<chrono::milliseconds>(end - start).count();
 
-    cout << "Runtime insertJadwal: " << dur << " milliseconds\n";
+    cout << "\nRuntime insertJadwal: " << dur << " milliseconds\n";
 }
 
 void searchJadwal() {
@@ -222,7 +231,7 @@ void searchJadwal() {
     auto end = Clock::now();
     auto dur = chrono::duration_cast<chrono::milliseconds>(end - start).count();
 
-    cout << "Runtime searchJadwal: " << dur << " milliseconds\n";
+    cout << "\nRuntime searchJadwal: " << dur << " milliseconds\n";
 }
 
 void updateJadwal() {
@@ -260,7 +269,7 @@ void updateJadwal() {
             auto end = Clock::now();
             auto dur = chrono::duration_cast<chrono::milliseconds>(end - start).count();
 
-            cout << "Runtime updateJadwal: " << dur << " milliseconds\n";
+            cout << "\nRuntime updateJadwal: " << dur << " milliseconds\n";
             return;
         }
     }
@@ -270,7 +279,7 @@ void updateJadwal() {
     auto end = Clock::now();
     auto dur = chrono::duration_cast<chrono::milliseconds>(end - start).count();
 
-    cout << "Runtime updateJadwal: " << dur << " milliseconds\n";
+    cout << "\nRuntime updateJadwal: " << dur << " milliseconds\n";
 }
 
 void deleteJadwal() {
@@ -293,7 +302,7 @@ void deleteJadwal() {
             auto end = Clock::now();
             auto dur = chrono::duration_cast<chrono::milliseconds>(end - start).count();
 
-            cout << "Runtime deleteJadwal: " << dur << " milliseconds\n";
+            cout << "\nRuntime deleteJadwal: " << dur << " milliseconds\n";
             return;
         }
     }
@@ -303,12 +312,12 @@ void deleteJadwal() {
     auto end = Clock::now();
     auto dur = chrono::duration_cast<chrono::milliseconds>(end - start).count();
 
-    cout << "Runtime deleteJadwal: " << dur << " milliseconds\n";
+    cout << "\nRuntime deleteJadwal: " << dur << " milliseconds\n";
 }
 
 int main() {
 
-    loadCSV("jadwal_ruang_50000data.csv");
+    loadCSV("jadwal_ruang_1semester_3600data.csv");
 
     int pilihan;
 
