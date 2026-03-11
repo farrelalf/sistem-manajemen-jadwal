@@ -84,10 +84,10 @@ void loadCSV(string filename) {
     file.close();
 
     auto end = Clock::now();
-    auto dur = chrono::duration_cast<chrono::microseconds>(end - start).count();
+    auto dur = chrono::duration_cast<chrono::milliseconds>(end - start).count();
 
     cout << "Jumlah data dimuat: " << dataJadwal.size() << endl;
-    cout << "Runtime loadCSV: " << dur << " microseconds\n";
+    cout << "Runtime loadCSV: " << dur << " milliseconds\n";
 }
 
 void tampilkanJadwal() {
@@ -113,9 +113,9 @@ void tampilkanJadwal() {
     }
 
     auto end = Clock::now();
-    auto dur = chrono::duration_cast<chrono::microseconds>(end - start).count();
+    auto dur = chrono::duration_cast<chrono::milliseconds>(end - start).count();
 
-    cout << "\nRuntime tampilkanJadwal: " << dur << " microseconds\n";
+    cout << "\nRuntime tampilkanJadwal: " << dur << " milliseconds\n";
 }
 
 void insertJadwal() {
@@ -165,9 +165,9 @@ void insertJadwal() {
     }
 
     auto end = Clock::now();
-    auto dur = chrono::duration_cast<chrono::microseconds>(end - start).count();
+    auto dur = chrono::duration_cast<chrono::milliseconds>(end - start).count();
 
-    cout << "Runtime insertJadwal: " << dur << " microseconds\n";
+    cout << "Runtime insertJadwal: " << dur << " milliseconds\n";
 }
 
 void searchJadwal() {
@@ -177,6 +177,7 @@ void searchJadwal() {
     cout << "Cari berdasarkan:\n";
     cout << "1. ID Ruang\n";
     cout << "2. Tanggal (YYYY-MM-DD)\n";
+    cout << "3. ID Jadwal\n";
     cout << "Pilih: ";
     cin >> mode;
 
@@ -186,6 +187,8 @@ void searchJadwal() {
         cout << "Masukkan ID Ruang: ";
     else if (mode == 2)
         cout << "Masukkan Tanggal: ";
+    else if (mode == 3)
+        cout << "Masukkan ID Jadwal: ";
     else
         return;
 
@@ -198,15 +201,16 @@ void searchJadwal() {
     for (const auto &j : dataJadwal) {
 
         if ((mode == 1 && j.room_id == key) ||
-            (mode == 2 && j.date == key)) {
+            (mode == 2 && j.date == key) ||
+            (mode == 3 && j.schedule_id == key)) {
 
             cout << "\n----------------------------\n";
-            cout << "\nID Jadwal : " << j.schedule_id;
-            cout << "\nRuang      : " << j.room_name;
-            cout << "\nTanggal    : " << j.date;
-            cout << "\nMulai      : " << j.start_time;
-            cout << "\nSelesai    : " << j.end_time;
-            cout << "\nKegiatan   : " << j.activity << endl;
+            cout << "ID Jadwal : " << j.schedule_id << endl;
+            cout << "Ruang     : " << j.room_name << endl;
+            cout << "Tanggal   : " << j.date << endl;
+            cout << "Mulai     : " << j.start_time << endl;
+            cout << "Selesai   : " << j.end_time << endl;
+            cout << "Kegiatan  : " << j.activity << endl;
 
             found = true;
         }
@@ -216,9 +220,9 @@ void searchJadwal() {
         cout << "Data tidak ditemukan\n";
 
     auto end = Clock::now();
-    auto dur = chrono::duration_cast<chrono::microseconds>(end - start).count();
+    auto dur = chrono::duration_cast<chrono::milliseconds>(end - start).count();
 
-    cout << "Runtime searchJadwal: " << dur << " microseconds\n";
+    cout << "Runtime searchJadwal: " << dur << " milliseconds\n";
 }
 
 void updateJadwal() {
@@ -254,9 +258,9 @@ void updateJadwal() {
             cout << "Jadwal berhasil diupdate\n";
 
             auto end = Clock::now();
-            auto dur = chrono::duration_cast<chrono::microseconds>(end - start).count();
+            auto dur = chrono::duration_cast<chrono::milliseconds>(end - start).count();
 
-            cout << "Runtime updateJadwal: " << dur << " microseconds\n";
+            cout << "Runtime updateJadwal: " << dur << " milliseconds\n";
             return;
         }
     }
@@ -264,9 +268,9 @@ void updateJadwal() {
     cout << "Jadwal tidak ditemukan\n";
 
     auto end = Clock::now();
-    auto dur = chrono::duration_cast<chrono::microseconds>(end - start).count();
+    auto dur = chrono::duration_cast<chrono::milliseconds>(end - start).count();
 
-    cout << "Runtime updateJadwal: " << dur << " microseconds\n";
+    cout << "Runtime updateJadwal: " << dur << " milliseconds\n";
 }
 
 void deleteJadwal() {
@@ -287,9 +291,9 @@ void deleteJadwal() {
             cout << "Jadwal berhasil dihapus\n";
 
             auto end = Clock::now();
-            auto dur = chrono::duration_cast<chrono::microseconds>(end - start).count();
+            auto dur = chrono::duration_cast<chrono::milliseconds>(end - start).count();
 
-            cout << "Runtime deleteJadwal: " << dur << " microseconds\n";
+            cout << "Runtime deleteJadwal: " << dur << " milliseconds\n";
             return;
         }
     }
@@ -297,14 +301,14 @@ void deleteJadwal() {
     cout << "Jadwal tidak ditemukan\n";
 
     auto end = Clock::now();
-    auto dur = chrono::duration_cast<chrono::microseconds>(end - start).count();
+    auto dur = chrono::duration_cast<chrono::milliseconds>(end - start).count();
 
-    cout << "Runtime deleteJadwal: " << dur << " microseconds\n";
+    cout << "Runtime deleteJadwal: " << dur << " milliseconds\n";
 }
 
 int main() {
 
-    loadCSV("jadwal_ruang_1semester_3600data.csv");
+    loadCSV("jadwal_ruang_50000data.csv");
 
     int pilihan;
 
