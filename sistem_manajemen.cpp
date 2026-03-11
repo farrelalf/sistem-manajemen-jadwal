@@ -140,8 +140,7 @@ void insertJadwal() {
         cout << "Error: ID Ruang tidak valid.\n";
         return;
     }
-
-    // fill room name automatically based on ID
+    
     j.room_name = getRoomName(j.room_id);
 
     cout << "ID Jadwal: ";
