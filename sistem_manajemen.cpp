@@ -21,6 +21,21 @@ struct Jadwal {
 
 vector<Jadwal> dataJadwal;
 
+size_t getMemoryUsage() {
+    size_t size_vector_struct = sizeof(dataJadwal);
+    size_t size_elements_reserved = dataJadwal.capacity() * sizeof(Jadwal);
+    size_t size_dynamic_strings = 0;
+    for (const auto &j : dataJadwal) {
+        size_dynamic_strings += j.room_id.capacity();
+        size_dynamic_strings += j.room_name.capacity();
+        size_dynamic_strings += j.schedule_id.capacity();
+        size_dynamic_strings += j.date.capacity();
+        size_dynamic_strings += j.activity.capacity();
+        size_dynamic_strings += j.status.capacity();
+    }
+    return size_vector_struct + size_elements_reserved + size_dynamic_strings;
+}
+
 const vector<string> validRooms = {"R001","R002","R003","R004","R005","R006"};
 
 string getRoomName(const string &id) {
@@ -101,24 +116,8 @@ void loadCSV(string filename) {
     cout << "Jumlah data dimuat: " << dataJadwal.size() << endl;
     cout << endl <<"Runtime loadCSV: " << dur << " milliseconds\n";
 
-    // Hitung space complexity / estimasi penggunaan memori
-    size_t size_vector_struct = sizeof(dataJadwal);
-    size_t size_elements_reserved = dataJadwal.capacity() * sizeof(Jadwal);
-    size_t size_dynamic_strings = 0;
-    for (const auto &j : dataJadwal) {
-        size_dynamic_strings += j.room_id.capacity();
-        size_dynamic_strings += j.room_name.capacity();
-        size_dynamic_strings += j.schedule_id.capacity();
-        size_dynamic_strings += j.date.capacity();
-        size_dynamic_strings += j.activity.capacity();
-        size_dynamic_strings += j.status.capacity();
-    }
-    size_t total_memory_bytes = size_vector_struct + size_elements_reserved + size_dynamic_strings;
-
+    size_t total_memory_bytes = getMemoryUsage();
     cout << "===== SPACE COMPLEXITY (Vektor) =====\n";
-    cout << "Overhead Struktur Vector: " << size_vector_struct << " bytes\n";
-    cout << "Alokasi Memori Kontigu  : " << size_elements_reserved << " bytes\n";
-    cout << "Alokasi Dynamic String  : " << size_dynamic_strings << " bytes\n";
     cout << "Total Penggunaan Memori : " << total_memory_bytes << " bytes ("
          << fixed << setprecision(2) << (double)total_memory_bytes / 1024.0 << " KB / "
          << (double)total_memory_bytes / (1024.0 * 1024.0) << " MB)\n";
@@ -157,6 +156,7 @@ void tampilkanJadwal() {
     auto dur = chrono::duration_cast<chrono::microseconds>(end - start).count();
 
     cout << "\nRuntime Traversal Vector : " << dur << " microseconds\n";
+    cout << "Space Complexity (Traversal): " << getMemoryUsage() << " bytes\n";
 }
 
 void insertJadwal() {
@@ -203,9 +203,13 @@ void insertJadwal() {
 
     j.status = "Booked";
 
+    size_t memBefore = getMemoryUsage();
+
     auto startInsert = Clock::now();
     dataJadwal.push_back(j);
     auto endInsert = Clock::now();
+
+    size_t memAfter = getMemoryUsage();
 
     cout << "Jadwal berhasil ditambahkan\n";
 
@@ -214,6 +218,7 @@ void insertJadwal() {
 
     cout << "\nRuntime cekKonflik : " << durKonflik << " microseconds\n";
     cout << "Runtime insert Vector : " << durInsert << " microseconds\n";
+    cout << "Space Complexity (Delta): +" << (int)(memAfter - memBefore) << " bytes (Before: " << memBefore << ", After: " << memAfter << " bytes)\n";
 }
 
 void searchJadwal() {
@@ -320,6 +325,16 @@ void searchJadwal() {
         auto dur = chrono::duration_cast<chrono::microseconds>(end - start).count();
         cout << "\nRuntime Search ID Jadwal : " << dur << " microseconds\n";
     }
+
+    // Hitung Space Complexity Hasil Pencarian Sementara
+    size_t size_hasil_struct = sizeof(hasil);
+    size_t size_hasil_elements = hasil.capacity() * sizeof(Jadwal);
+    size_t size_hasil_strings = 0;
+    for (const auto &j : hasil) {
+        size_hasil_strings += j.room_id.capacity() + j.room_name.capacity() + j.schedule_id.capacity() + j.date.capacity() + j.activity.capacity() + j.status.capacity();
+    }
+    size_t total_hasil_mem = size_hasil_struct + size_hasil_elements + size_hasil_strings;
+    cout << "Space Complexity (Temporary Search Result): " << total_hasil_mem << " bytes\n";
 }
 
 void updateJadwal() {
@@ -342,32 +357,32 @@ void updateJadwal() {
     cin.ignore();
     getline(cin, kegiatanBaru);
 
+    size_t memBefore = getMemoryUsage();
     auto start = Clock::now();
+    bool found = false;
 
     for (auto &j : dataJadwal) {
-
         if (j.schedule_id == id) {
-
             j.start_time = startBaru;
             j.end_time = endBaru;
             j.activity = kegiatanBaru;
-
-            cout << "Jadwal berhasil diupdate\n";
-
-            auto end = Clock::now();
-            auto dur = chrono::duration_cast<chrono::milliseconds>(end - start).count();
-
-            cout << "\nRuntime updateJadwal: " << dur << " milliseconds\n";
-            return;
+            found = true;
+            break;
         }
     }
 
-    cout << "Jadwal tidak ditemukan\n";
-
     auto end = Clock::now();
-    auto dur = chrono::duration_cast<chrono::milliseconds>(end - start).count();
+    size_t memAfter = getMemoryUsage();
 
-    cout << "\nRuntime updateJadwal: " << dur << " milliseconds\n";
+    if (found) {
+        cout << "Jadwal berhasil diupdate\n";
+    } else {
+        cout << "Jadwal tidak ditemukan\n";
+    }
+
+    auto dur = chrono::duration_cast<chrono::microseconds>(end - start).count();
+    cout << "\nRuntime updateJadwal: " << dur << " microseconds\n";
+    cout << "Space Complexity (Delta): " << (int)memAfter - (int)memBefore << " bytes (Before: " << memBefore << ", After: " << memAfter << " bytes)\n";
 }
 
 void deleteJadwal() {
@@ -377,35 +392,35 @@ void deleteJadwal() {
     cout << "Masukkan ID Jadwal yang ingin dihapus: ";
     cin >> id;
 
+    size_t memBefore = getMemoryUsage();
     auto start = Clock::now();
+    bool found = false;
 
     for (int i = 0; i < dataJadwal.size(); i++) {
-
         if (dataJadwal[i].schedule_id == id) {
-
             dataJadwal.erase(dataJadwal.begin() + i);
-
-            cout << "Jadwal berhasil dihapus\n";
-
-            auto end = Clock::now();
-            auto dur = chrono::duration_cast<chrono::milliseconds>(end - start).count();
-
-            cout << "\nRuntime deleteJadwal: " << dur << " milliseconds\n";
-            return;
+            found = true;
+            break;
         }
     }
 
-    cout << "Jadwal tidak ditemukan\n";
-
     auto end = Clock::now();
-    auto dur = chrono::duration_cast<chrono::milliseconds>(end - start).count();
+    size_t memAfter = getMemoryUsage();
 
-    cout << "\nRuntime deleteJadwal: " << dur << " milliseconds\n";
+    if (found) {
+        cout << "Jadwal berhasil dihapus\n";
+    } else {
+        cout << "Jadwal tidak ditemukan\n";
+    }
+
+    auto dur = chrono::duration_cast<chrono::microseconds>(end - start).count();
+    cout << "\nRuntime deleteJadwal: " << dur << " microseconds\n";
+    cout << "Space Complexity (Delta): " << (int)memAfter - (int)memBefore << " bytes (Before: " << memBefore << ", After: " << memAfter << " bytes)\n";
 }
 
 int main() {
 
-    loadCSV("jadwal_ruang_50000data.csv");
+    loadCSV("jadwal_ruang_3600data.csv");
 
     int pilihan;
 
