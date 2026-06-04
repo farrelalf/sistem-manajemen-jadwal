@@ -221,40 +221,156 @@ void insertJadwal() {
          << " microseconds\n";
 }
 
-void searchJadwal() {
+void searchJadwal()
+{
+    int pilihan;
 
-    string id;
+    cout << "\nCari berdasarkan:\n";
+    cout << "1. ID Ruang\n";
+    cout << "2. Tanggal (YYYY-MM-DD)\n";
+    cout << "3. ID Jadwal\n";
+    cout << "Pilih: ";
+    cin >> pilihan;
 
-    cout << "Masukkan ID Jadwal: ";
-    cin >> id;
+    bool ditemukan = false;
 
-    auto start = Clock::now();
+    // ==========================
+    // SEARCH BERDASARKAN RUANG
+    // ==========================
+    if (pilihan == 1)
+    {
+        string room;
 
-    auto it = dataJadwal.find(id);
+        cout << "Masukkan ID Ruang: ";
+        cin >> room;
 
-    if (it != dataJadwal.end()) {
+        vector<Jadwal> hasil;
 
-        Jadwal j = it->second;
+        auto start = Clock::now();
 
-        cout << "\n----------------------------\n";
-        cout << "ID Jadwal : " << j.schedule_id << endl;
-        cout << "Ruang     : " << j.room_name << endl;
-        cout << "Tanggal   : " << j.date << endl;
-        cout << "Mulai     : " << j.start_time << endl;
-        cout << "Selesai   : " << j.end_time << endl;
-        cout << "Kegiatan  : " << j.activity << endl;
-        cout << "Status    : " << j.status << endl;
+        for (const auto &pair : dataJadwal)
+        {
+            if (pair.second.room_id == room)
+            {
+                hasil.push_back(pair.second);
+            }
+        }
 
-    } else {
+        auto end = Clock::now();
 
-        cout << "Data tidak ditemukan\n";
+        for (const auto &j : hasil)
+        {
+            ditemukan = true;
+
+            cout << "\n----------------------------\n";
+            cout << "ID Jadwal : " << j.schedule_id << endl;
+            cout << "Ruang     : " << j.room_name << endl;
+            cout << "Tanggal   : " << j.date << endl;
+            cout << "Mulai     : " << j.start_time << endl;
+            cout << "Selesai   : " << j.end_time << endl;
+            cout << "Kegiatan  : " << j.activity << endl;
+            cout << "Status    : " << j.status << endl;
+        }
+
+        if (!ditemukan)
+            cout << "\nData tidak ditemukan\n";
+
+        cout << "\nRuntime Search Ruang : "
+             << chrono::duration_cast<chrono::microseconds>(end - start).count()
+             << " microseconds\n";
     }
 
-    auto end = Clock::now();
+    // ==========================
+    // SEARCH BERDASARKAN TANGGAL
+    // ==========================
+    else if (pilihan == 2)
+    {
+        string tanggal;
 
-    cout << "\nRuntime searchJadwal : "
-         << chrono::duration_cast<chrono::microseconds>(end-start).count()
-         << " microseconds\n";
+        cout << "Masukkan Tanggal (YYYY-MM-DD): ";
+        cin >> tanggal;
+
+        vector<Jadwal> hasil;
+
+        auto start = Clock::now();
+
+        for (const auto &pair : dataJadwal)
+        {
+            if (pair.second.date == tanggal)
+            {
+                hasil.push_back(pair.second);
+            }
+        }
+
+        auto end = Clock::now();
+
+        for (const auto &j : hasil)
+        {
+            ditemukan = true;
+
+            cout << "\n----------------------------\n";
+            cout << "ID Jadwal : " << j.schedule_id << endl;
+            cout << "Ruang     : " << j.room_name << endl;
+            cout << "Tanggal   : " << j.date << endl;
+            cout << "Mulai     : " << j.start_time << endl;
+            cout << "Selesai   : " << j.end_time << endl;
+            cout << "Kegiatan  : " << j.activity << endl;
+            cout << "Status    : " << j.status << endl;
+        }
+
+        if (!ditemukan)
+            cout << "\nData tidak ditemukan\n";
+
+        cout << "\nRuntime Search Tanggal : "
+             << chrono::duration_cast<chrono::microseconds>(end - start).count()
+             << " microseconds\n";
+    }
+
+    // ==========================
+    // SEARCH BERDASARKAN ID JADWAL
+    // ==========================
+    else if (pilihan == 3)
+    {
+        string id;
+
+        cout << "Masukkan ID Jadwal: ";
+        cin >> id;
+
+        auto start = Clock::now();
+
+        auto it = dataJadwal.find(id);
+
+        auto end = Clock::now();
+
+        if (it != dataJadwal.end())
+        {
+            ditemukan = true;
+
+            const Jadwal &j = it->second;
+
+            cout << "\n----------------------------\n";
+            cout << "ID Jadwal : " << j.schedule_id << endl;
+            cout << "Ruang     : " << j.room_name << endl;
+            cout << "Tanggal   : " << j.date << endl;
+            cout << "Mulai     : " << j.start_time << endl;
+            cout << "Selesai   : " << j.end_time << endl;
+            cout << "Kegiatan  : " << j.activity << endl;
+            cout << "Status    : " << j.status << endl;
+        }
+        else
+        {
+            cout << "\nData tidak ditemukan\n";
+        }
+
+        cout << "\nRuntime Search ID Jadwal : "
+             << chrono::duration_cast<chrono::microseconds>(end - start).count()
+             << " microseconds\n";
+    }
+
+    else
+    {
+        cout << "Pilihan tidak valid\n";
+    }
 }
 
 void updateJadwal() {
@@ -336,7 +452,7 @@ int main() {
         cout << "\n===== SISTEM MANAJEMEN JADWAL RUANG =====\n";
         cout << "1. Tampilkan Jadwal\n";
         cout << "2. Insert Jadwal\n";
-        cout << "3. Search Jadwal Berdasarkan ID Jadwal\n";
+        cout << "3. Search Jadwal Berdasarkan Ruang/Tanggal\n";
         cout << "4. Update Jadwal\n";
         cout << "5. Delete Jadwal\n";
         cout << "6. Keluar\n";
