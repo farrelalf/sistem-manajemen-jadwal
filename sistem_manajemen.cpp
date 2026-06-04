@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <chrono>
+#include <iomanip>
 
 using namespace std;
 using Clock = chrono::high_resolution_clock;
@@ -99,16 +100,46 @@ void loadCSV(string filename) {
 
     cout << "Jumlah data dimuat: " << dataJadwal.size() << endl;
     cout << endl <<"Runtime loadCSV: " << dur << " milliseconds\n";
+
+    // Hitung space complexity / estimasi penggunaan memori
+    size_t size_vector_struct = sizeof(dataJadwal);
+    size_t size_elements_reserved = dataJadwal.capacity() * sizeof(Jadwal);
+    size_t size_dynamic_strings = 0;
+    for (const auto &j : dataJadwal) {
+        size_dynamic_strings += j.room_id.capacity();
+        size_dynamic_strings += j.room_name.capacity();
+        size_dynamic_strings += j.schedule_id.capacity();
+        size_dynamic_strings += j.date.capacity();
+        size_dynamic_strings += j.activity.capacity();
+        size_dynamic_strings += j.status.capacity();
+    }
+    size_t total_memory_bytes = size_vector_struct + size_elements_reserved + size_dynamic_strings;
+
+    cout << "===== SPACE COMPLEXITY (Vektor) =====\n";
+    cout << "Overhead Struktur Vector: " << size_vector_struct << " bytes\n";
+    cout << "Alokasi Memori Kontigu  : " << size_elements_reserved << " bytes\n";
+    cout << "Alokasi Dynamic String  : " << size_dynamic_strings << " bytes\n";
+    cout << "Total Penggunaan Memori : " << total_memory_bytes << " bytes ("
+         << fixed << setprecision(2) << (double)total_memory_bytes / 1024.0 << " KB / "
+         << (double)total_memory_bytes / (1024.0 * 1024.0) << " MB)\n";
+    cout << "======================================\n";
 }
 
 void tampilkanJadwal() {
-
-    auto start = Clock::now();
 
     if (dataJadwal.empty()) {
         cout << "Belum ada data jadwal\n";
         return;
     }
+
+    auto start = Clock::now();
+
+    for (const auto &j : dataJadwal) {
+        // hanya traversal
+        volatile auto temp = j.schedule_id;
+    }
+
+    auto end = Clock::now();
 
     for (const auto &j : dataJadwal) {
 
@@ -123,10 +154,9 @@ void tampilkanJadwal() {
         cout << "Status     : " << j.status << endl;
     }
 
-    auto end = Clock::now();
-    auto dur = chrono::duration_cast<chrono::milliseconds>(end - start).count();
+    auto dur = chrono::duration_cast<chrono::microseconds>(end - start).count();
 
-    cout << "\nRuntime tampilkanJadwal: " << dur << " milliseconds\n";
+    cout << "\nRuntime Traversal Vector : " << dur << " microseconds\n";
 }
 
 void insertJadwal() {
@@ -167,6 +197,7 @@ void insertJadwal() {
     }
 
     cout << "Nama kegiatan: ";
+    
     cin.ignore();
     getline(cin, j.activity);
 
@@ -197,28 +228,53 @@ void searchJadwal() {
     cin >> mode;
 
     string key;
+    vector<Jadwal> hasil;
 
-    if (mode == 1)
+    if (mode == 1) {
         cout << "Masukkan ID Ruang: ";
-    else if (mode == 2)
+        cin >> key;
+
+        auto start = Clock::now();
+
+        for (const auto &j : dataJadwal) {
+            if (j.room_id == key) {
+                hasil.push_back(j);
+            }
+        }
+
+        auto end = Clock::now();
+
+        // for (const auto &j : hasil) {
+        //     cout << "\n----------------------------\n";
+        //     cout << "ID Jadwal : " << j.schedule_id << endl;
+        //     cout << "Ruang     : " << j.room_name << endl;
+        //     cout << "Tanggal   : " << j.date << endl;
+        //     cout << "Mulai     : " << j.start_time << endl;
+        //     cout << "Selesai   : " << j.end_time << endl;
+        //     cout << "Kegiatan  : " << j.activity << endl;
+        // }
+
+        if (hasil.empty())
+            cout << "Data tidak ditemukan\n";
+
+        auto dur = chrono::duration_cast<chrono::microseconds>(end - start).count();
+        cout << "\nRuntime Search Ruang : " << dur << " microseconds\n";
+    }
+    else if (mode == 2) {
         cout << "Masukkan Tanggal: ";
-    else if (mode == 3)
-        cout << "Masukkan ID Jadwal: ";
-    else
-        return;
+        cin >> key;
 
-    cin >> key;
+        auto start = Clock::now();
 
-    auto start = Clock::now();
+        for (const auto &j : dataJadwal) {
+            if (j.date == key) {
+                hasil.push_back(j);
+            }
+        }
 
-    bool found = false;
+        auto end = Clock::now();
 
-    for (const auto &j : dataJadwal) {
-
-        if ((mode == 1 && j.room_id == key) ||
-            (mode == 2 && j.date == key) ||
-            (mode == 3 && j.schedule_id == key)) {
-
+        for (const auto &j : hasil) {
             cout << "\n----------------------------\n";
             cout << "ID Jadwal : " << j.schedule_id << endl;
             cout << "Ruang     : " << j.room_name << endl;
@@ -226,18 +282,44 @@ void searchJadwal() {
             cout << "Mulai     : " << j.start_time << endl;
             cout << "Selesai   : " << j.end_time << endl;
             cout << "Kegiatan  : " << j.activity << endl;
-
-            found = true;
         }
+
+        if (hasil.empty())
+            cout << "Data tidak ditemukan\n";
+
+        auto dur = chrono::duration_cast<chrono::microseconds>(end - start).count();
+        cout << "\nRuntime Search Tanggal : " << dur << " microseconds\n";
     }
+    else if (mode == 3) {
+        cout << "Masukkan ID Jadwal: ";
+        cin >> key;
 
-    if (!found)
-        cout << "Data tidak ditemukan\n";
+        auto start = Clock::now();
 
-    auto end = Clock::now();
-    auto dur = chrono::duration_cast<chrono::milliseconds>(end - start).count();
+        for (const auto &j : dataJadwal) {
+            if (j.schedule_id == key) {
+                hasil.push_back(j);
+            }
+        }
 
-    cout << "\nRuntime searchJadwal: " << dur << " milliseconds\n";
+        auto end = Clock::now();
+
+        for (const auto &j : hasil) {
+            cout << "\n----------------------------\n";
+            cout << "ID Jadwal : " << j.schedule_id << endl;
+            cout << "Ruang     : " << j.room_name << endl;
+            cout << "Tanggal   : " << j.date << endl;
+            cout << "Mulai     : " << j.start_time << endl;
+            cout << "Selesai   : " << j.end_time << endl;
+            cout << "Kegiatan  : " << j.activity << endl;
+        }
+
+        if (hasil.empty())
+            cout << "Data tidak ditemukan\n";
+
+        auto dur = chrono::duration_cast<chrono::microseconds>(end - start).count();
+        cout << "\nRuntime Search ID Jadwal : " << dur << " microseconds\n";
+    }
 }
 
 void updateJadwal() {

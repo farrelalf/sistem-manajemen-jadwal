@@ -4,6 +4,7 @@
 #include <sstream>
 #include <chrono>
 #include <vector>
+#include <iomanip>
 
 using namespace std;
 using Clock = chrono::high_resolution_clock;
@@ -107,6 +108,38 @@ void loadCSV(string filename) {
 
     cout << "Jumlah data dimuat: " << dataJadwal.size() << endl;
     cout << endl <<"Runtime loadCSV: " << dur << " milliseconds\n";
+
+    // Hitung space complexity / estimasi penggunaan memori pada Hash Table (unordered_map)
+    size_t size_map_struct = sizeof(dataJadwal);
+    size_t size_buckets = dataJadwal.bucket_count() * sizeof(void*);
+    // Overhead per node: std::pair<const string, Jadwal> + linked list next pointer
+    size_t node_overhead = sizeof(std::pair<const string, Jadwal>) + sizeof(void*);
+    size_t size_nodes = dataJadwal.size() * node_overhead;
+    
+    size_t size_dynamic_strings = 0;
+    for (const auto &pair : dataJadwal) {
+        // Key string
+        size_dynamic_strings += pair.first.capacity();
+        // Value Jadwal strings
+        const Jadwal &j = pair.second;
+        size_dynamic_strings += j.room_id.capacity();
+        size_dynamic_strings += j.room_name.capacity();
+        size_dynamic_strings += j.schedule_id.capacity();
+        size_dynamic_strings += j.date.capacity();
+        size_dynamic_strings += j.activity.capacity();
+        size_dynamic_strings += j.status.capacity();
+    }
+    size_t total_memory_bytes = size_map_struct + size_buckets + size_nodes + size_dynamic_strings;
+
+    cout << "===== SPACE COMPLEXITY (Hash Table) =====\n";
+    cout << "Overhead Struktur Map   : " << size_map_struct << " bytes\n";
+    cout << "Ukuran Bucket Array     : " << size_buckets << " bytes (" << dataJadwal.bucket_count() << " buckets)\n";
+    cout << "Ukuran Node & Value     : " << size_nodes << " bytes\n";
+    cout << "Alokasi Dynamic String  : " << size_dynamic_strings << " bytes\n";
+    cout << "Total Penggunaan Memori : " << total_memory_bytes << " bytes ("
+         << fixed << setprecision(2) << (double)total_memory_bytes / 1024.0 << " KB / "
+         << (double)total_memory_bytes / (1024.0 * 1024.0) << " MB)\n";
+    cout << "=========================================\n";
 }
 
 void tampilkanJadwal() {
