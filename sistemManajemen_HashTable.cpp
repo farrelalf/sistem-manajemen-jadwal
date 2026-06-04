@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <chrono>
+#include <vector>
 
 using namespace std;
 using Clock = chrono::high_resolution_clock;

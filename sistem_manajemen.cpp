@@ -155,27 +155,34 @@ void insertJadwal() {
     cout << "Waktu selesai: ";
     cin >> j.end_time;
 
-    auto start = Clock::now();
+    auto startKonflik = Clock::now();
+    bool konflik = cekKonflik(j.room_id, j.date, j.start_time, j.end_time);
+    auto endKonflik = Clock::now();
 
-    if (cekKonflik(j.room_id, j.date, j.start_time, j.end_time)) {
-
+    if (konflik) {
         cout << "Konflik jadwal terdeteksi!\n";
-
-    } else {
-        cout << "Nama kegiatan: ";
-        cin.ignore();
-        getline(cin, j.activity);
-
-        j.status = "Booked";
-        dataJadwal.push_back(j);
-
-        cout << "Jadwal berhasil ditambahkan\n";
+        auto durKonflik = chrono::duration_cast<chrono::microseconds>(endKonflik - startKonflik).count();
+        cout << "\nRuntime cekKonflik : " << durKonflik << " microseconds\n";
+        return;
     }
 
-    auto end = Clock::now();
-    auto dur = chrono::duration_cast<chrono::milliseconds>(end - start).count();
+    cout << "Nama kegiatan: ";
+    cin.ignore();
+    getline(cin, j.activity);
 
-    cout << "\nRuntime insertJadwal: " << dur << " milliseconds\n";
+    j.status = "Booked";
+
+    auto startInsert = Clock::now();
+    dataJadwal.push_back(j);
+    auto endInsert = Clock::now();
+
+    cout << "Jadwal berhasil ditambahkan\n";
+
+    auto durKonflik = chrono::duration_cast<chrono::microseconds>(endKonflik - startKonflik).count();
+    auto durInsert = chrono::duration_cast<chrono::microseconds>(endInsert - startInsert).count();
+
+    cout << "\nRuntime cekKonflik : " << durKonflik << " microseconds\n";
+    cout << "Runtime insert Vector : " << durInsert << " microseconds\n";
 }
 
 void searchJadwal() {
@@ -316,7 +323,7 @@ void deleteJadwal() {
 
 int main() {
 
-    loadCSV("jadwal_ruang_1semester_3600data.csv");
+    loadCSV("jadwal_ruang_50000data.csv");
 
     int pilihan;
 
